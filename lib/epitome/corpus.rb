@@ -28,7 +28,7 @@ module Epitome
       
     end
 
-    def summary(summary_length, threshold=0.2)
+    def summary_bullets(bullets, threshold=0.2)
       s = @clean_corpus.values.flatten
       # n is the number of sentences in the total corpus
       n = @clean_corpus.values.flatten.size
@@ -58,7 +58,11 @@ module Epitome
       # Ugly sleight of hand to return a text based on results
       # <Array>Results => <Hash>Results => <String>ResultsText
       h = Hash[@sentences.zip(results)]
-      return h.sort_by {|k, v| v}.reverse.first(summary_length).to_h.keys.join(" ")
+      return h.sort_by {|k, v| v}.reverse.first(bullets).to_h.keys
+    end
+
+    def summary(summary_length, threshold = 0.2)
+      summary_bullets(summary_length, threshold).join(" ")
     end
 
     private
